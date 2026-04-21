@@ -5,11 +5,7 @@ add_executable(pipeline_smoke_tests
 target_link_libraries(pipeline_smoke_tests
   PRIVATE
     GTest::gtest_main
-    pipeline_core
-    pipeline_mapping
-    pipeline_descriptors
-    pipeline_builders
-    pipeline_utils
+    pipeline_conversion
 )
 
 include(GoogleTest)
