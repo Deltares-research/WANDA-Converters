@@ -1,4 +1,6 @@
-add_library(pipeline_conversion STATIC)
+add_library(pipeline_conversion STATIC
+        mapping/from_wanda/wanda_pipe_to_entity_mapper.cpp
+        mapping/from_wanda/wanda_pipe_to_entity_mapper.h)
 set_target_properties(pipeline_conversion PROPERTIES LINKER_LANGUAGE CXX)
 target_sources(pipeline_conversion
   PRIVATE
@@ -12,9 +14,5 @@ target_sources(pipeline_conversion
 )
 target_include_directories(pipeline_conversion
   PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/core
-    ${CMAKE_CURRENT_SOURCE_DIR}/mapping
-    ${CMAKE_CURRENT_SOURCE_DIR}/descriptors
-    ${CMAKE_CURRENT_SOURCE_DIR}/builders
-    ${CMAKE_CURRENT_SOURCE_DIR}/utils
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
