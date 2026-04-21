@@ -59,4 +59,5 @@ target_link_libraries(pipeline_builders
   PUBLIC
     pipeline_core
     pipeline_descriptors
+    pipeline_mapping
 )
