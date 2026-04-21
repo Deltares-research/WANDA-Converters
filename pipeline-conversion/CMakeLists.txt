@@ -9,6 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(BUILD_TESTING "Build tests" ON)
 
 add_subdirectory(src)
+add_subdirectory(app)
 
 if(BUILD_TESTING)
   include(CTest)
