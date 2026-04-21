@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "../core/network.h"
-#include "../descriptors/wanda_pipe_descriptor.h"
+#include "network.h"
+#include "wanda_pipe_descriptor.h"
 
 namespace pipeline::builders {
 
