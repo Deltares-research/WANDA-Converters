@@ -3,3 +3,4 @@
 Pipe WandaPipeToEntityMapper::map(const WandaPipeDescriptor &descriptor) const {
     return { };
 }
+
