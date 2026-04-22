@@ -1,7 +1,8 @@
 #pragma once
-
+#include "typedef.h"
 struct Node {
-  int id{0};
+  NodeId id;
+  double elevation;
 };
 
 

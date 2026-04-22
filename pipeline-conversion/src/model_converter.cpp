@@ -17,7 +17,7 @@ ModelConverter::ModelConverter(const std::string_view input_file, const std::str
     if (input_model_type == "WANDA") {
         std::cout << "WANDA" << std::endl;
         WandaModelImporter importer(std::string(input_file), "c:\\Program Files (x86)\\Deltares\\Wanda 4.8\\Bin64\\");
-        importer.import();
+        network = importer.import();
     }
     if (input_model_type == "GIS") {
         std::cout << "GIS" << std::endl;

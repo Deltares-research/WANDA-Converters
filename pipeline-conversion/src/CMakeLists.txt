@@ -8,7 +8,10 @@ add_library(pipeline_conversion STATIC
         mapping/from_wanda/wanda_model_importer.cpp
         mapping/from_wanda/wanda_model_importer.h
         mapping/from_wanda/wanda_pipe_importer.cpp
-        mapping/from_wanda/wanda_pipe_importer.h)
+        mapping/from_wanda/wanda_pipe_importer.h
+        core/typedef.h
+        mapping/from_wanda/wanda_node_importer.cpp
+        mapping/from_wanda/wanda_node_importer.h)
 set_target_properties(pipeline_conversion PROPERTIES LINKER_LANGUAGE CXX)
 target_sources(pipeline_conversion
   PRIVATE
