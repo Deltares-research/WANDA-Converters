@@ -90,6 +90,7 @@ class wanda_def
     int get_element_size(std::string &element);
     std::string get_wanda_version() const;
   private:
+    void initialize(std::string data_path);
     bool initialized = false;
     nefis_file _database;
     int _num_phys_comp;

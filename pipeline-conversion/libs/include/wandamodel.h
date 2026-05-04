@@ -121,6 +121,7 @@ class WANDAMODEL_API wanda_model final
     wanda_helper_functions::wanda_version_number version_number = {"0.0.0"};
     wanda_license_manager _wanda_license_manager;
     WandaGraph graph;
+    wanda_helper_functions::external_process_handle _process_handle;
 
     void reset_modified();
     void read_general_items();
@@ -703,19 +704,66 @@ public:
     //! Run unsteady (transient) state computation
     /*!
      * Run the unsteady (transient) state computation for this wanda_model.
-     * changes to input are saved before running the computation. If there are
+     * Changes to input are saved before running the computation. If there are
      * changes or steady has not run, the run_steady() will be called before the
-     * unsteady computation is performed. The simulation output will be loaded
-     * into memory after the computation has finished.
+     * unsteady computation is performed. When \p run_async is false (default),
+     * the simulation output will be loaded into memory after the computation
+     * has finished. When \p run_async is true, the simulation is started in the
+     * background and the method returns immediately. Use is_simulation_running()
+     * to check if the simulation has finished, get_simulation_progress() to
+     * monitor progress, and call after_unsteady() once the simulation is complete.
+     * @param[in] run_async If true, run the simulation asynchronously (non-blocking).
+     *                      If false (default), run synchronously and block until finished.
      * @throw std::runtime_error Model is not set to transient mode
-     * @throw std::runtime_error Steady error in physical component
      * @throw std::runtime_error Steady error in physical component
      * @throw std::runtime_error Steady error in control component
      * @throw std::runtime_error Steady error in node
      * @throw std::runtime_error Steady error check steady message file
-     * @throw std::exception The executable cannot be started or has crashed. The exception it caught is passes as general exception.
+     * @throw std::exception The executable cannot be started or has crashed.
      */
-    void run_unsteady();
+    void run_unsteady(bool run_async=false);
+
+    //! Finalize after an asynchronous unsteady simulation has completed
+    /*!
+     * Opens the NEFIS files and loads the simulation output and messages into
+     * memory. This method must be called after an asynchronous simulation
+     * (started with run_unsteady(true)) has finished. Use is_simulation_running()
+     * to verify the simulation is no longer running before calling this method.
+     * When run_unsteady() is called synchronously (run_async=false), this method
+     * is called automatically.
+     * @throw std::runtime_error Simulation is still running
+     * @throw std::runtime_error Unsteady error in physical component
+     * @throw std::runtime_error Unsteady error in control component
+     * @throw std::runtime_error Unsteady error in node
+     */
+    void finalize_unsteady();
+
+    //! Check if an asynchronous simulation is still running
+    /*!
+     * Returns true if a simulation started with run_unsteady(true) is still running.
+     * Returns false if no async simulation was started or it has finished.
+     * @return true if the simulation process is still running, false otherwise.
+     */
+    bool is_simulation_running() const;
+
+    //! Stop a running asynchronous simulation
+    /*!
+     * Signals a simulation started with run_unsteady(true) to stop. Sets a flag
+     * in the input file that the unsteady solver will read to terminate early.
+     * @throw std::runtime_error Simulation is not running
+     */
+    void stop_simulation();
+
+    //! Returns the simulation progress as a value between 0 and 1
+    /*!
+     * Queries the output file to determine how many time steps have been
+     * completed relative to the total number of time steps. Can only be called
+     * while an asynchronous simulation (started with run_unsteady(true)) is running.
+     * @return Progress as a float between 0.0 (not started) and 1.0 (complete).
+     * @throw std::runtime_error Simulation is not running
+     */
+    float get_simulation_progress();
+
     //@private
     void clear_messages();
     void reset_wdo_pointer();

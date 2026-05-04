@@ -17,7 +17,7 @@ Network WandaModelImporter::import()  {
     return network;
 }
 
-WandaModelImporter::WandaModelImporter(std::string model_file, std::string wanda_bin):wanda_model_in(model_file, wanda_bin) {
+WandaModelImporter::WandaModelImporter(const std::string& model_file, const std::string& wanda_bin):wanda_model_in(model_file, wanda_bin) {
 }
 
 WandaModelImporter::~WandaModelImporter() {

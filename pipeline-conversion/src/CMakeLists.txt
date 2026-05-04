@@ -1,8 +1,6 @@
 
 
 add_library(pipeline_conversion STATIC
-        mapping/from_wanda/wanda_pipe_to_entity_mapper.cpp
-        mapping/from_wanda/wanda_pipe_to_entity_mapper.h
         model_converter.cpp
         model_converter.h
         mapping/from_wanda/wanda_model_importer.cpp
@@ -11,7 +9,12 @@ add_library(pipeline_conversion STATIC
         mapping/from_wanda/wanda_pipe_importer.h
         core/typedef.h
         mapping/from_wanda/wanda_node_importer.cpp
-        mapping/from_wanda/wanda_node_importer.h)
+        mapping/from_wanda/wanda_node_importer.h
+        mapping/to_wanda/wanda_model_exporter.cpp
+        mapping/to_wanda/wanda_model_exporter.h
+        mapping/to_wanda/wanda_model_builder.cpp
+        mapping/to_wanda/wanda_model_builder.h
+)
 set_target_properties(pipeline_conversion PROPERTIES LINKER_LANGUAGE CXX)
 target_sources(pipeline_conversion
   PRIVATE

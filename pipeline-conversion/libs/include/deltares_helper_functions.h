@@ -134,10 +134,58 @@ struct wanda_version_number
 // private method
 inline std::string string_to_lower(std::string str)
 {
-    std::ranges::transform(str, str.begin(), [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    std::ranges::transform(str, str.begin(), ::tolower);
     return str;
 }
 
+struct external_process_handle
+{
+    HANDLE process_handle = nullptr;
+
+    external_process_handle() = default;
+    external_process_handle(const external_process_handle &) = delete;
+    external_process_handle &operator=(const external_process_handle &) = delete;
+    external_process_handle(external_process_handle &&other) noexcept : process_handle(other.process_handle)
+    {
+        other.process_handle = nullptr;
+    }
+    external_process_handle &operator=(external_process_handle &&other) noexcept
+    {
+        close();
+        process_handle = other.process_handle;
+        other.process_handle = nullptr;
+        return *this;
+    }
+    ~external_process_handle() { close(); }
+
+    [[nodiscard]] bool is_running() const
+    {
+        if (!process_handle)
+            return false;
+        return WaitForSingleObject(process_handle, 0) == WAIT_TIMEOUT;
+    }
+
+    DWORD wait_and_get_exit_code() const
+    {
+        if (!process_handle)
+            return 0;
+        WaitForSingleObject(process_handle, INFINITE);
+        DWORD exitcode;
+        GetExitCodeProcess(process_handle, &exitcode);
+        return exitcode;
+    }
+
+    void close()
+    {
+        if (process_handle)
+        {
+            CloseHandle(process_handle);
+            process_handle = nullptr;
+        }
+    }
+};
+
+external_process_handle run_external_program_win(const std::string &exepath, const std::string &args, bool run_async=false);
 }; // namespace wanda_helper_functions
 
 
