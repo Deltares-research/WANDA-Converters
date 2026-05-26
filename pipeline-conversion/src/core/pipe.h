@@ -4,7 +4,9 @@
 
 #include "typedef.h"
 
-
+/**
+ * @brief Friction model used for headloss calculation in a pipe.
+ */
 enum class FrictionModel {
   HazenWilliams,
   DarcyWeisbach,
