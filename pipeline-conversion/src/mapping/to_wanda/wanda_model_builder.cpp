@@ -13,12 +13,18 @@ void WandaModelBuilder::add_node(const Node &node) {
 }
 
 void WandaModelBuilder::add_pipe(const Pipe &pipe) {
-    auto& wanda_pipe =model_.add_component("Pipe (Liquid)",pipe.position, pipe.name);
+    auto& wanda_pipe = model_.add_component("Pipe (Liquid)",pipe.position, pipe.name);
     wanda_pipe.get_property("Length").set_scalar(static_cast<float>(pipe.length));
     wanda_pipe.get_property("Inner diameter").set_scalar(static_cast<float>(pipe.inner_diameter));
     wanda_pipe.get_property("Wall roughness").set_scalar(static_cast<float>(pipe.friction_model_roughness));
     connections_pending.push_back({wanda_pipe, pipe.from_node_id, 1});
     connections_pending.push_back({wanda_pipe, pipe.to_node_id, 2});
+}
+
+void WandaModelBuilder::add_reservoir(const Reservoir &reservoir) {
+    auto& wanda_reservoir = model_.add_component("BoundH (reservoir)", reservoir.position, reservoir.name);
+    wanda_reservoir.get_property("Head at t = 0 [s]").set_scalar(static_cast<float>(reservoir.head));
+    connections_pending.push_back({wanda_reservoir, reservoir.name, 1});
 }
 
 void WandaModelBuilder::finalize() {

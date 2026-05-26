@@ -2,6 +2,7 @@
 
 #include "epanet_node_importer.h"
 #include "epanet_pipe_importer.h"
+#include "epanet_reservoir_importer.h"
 #include "epanet_unit_converter.h"
 #include "../../../cmake-build-debug-visual-studio/_deps/epanet-src/src/outfile/include/epanet_output.h"
 
@@ -41,6 +42,7 @@ Network EpanetImporter::import() const {
     int node_count = 0;
     EN_getcount(epanet_project,EN_NODECOUNT, &node_count);
     EpanetNodeImporter node_importer;
+    EpanetReservoirImporter reservoir_importer;
     for (int i = 1; i <= node_count; ++i) {
         int node_type = 0;
         EN_getnodetype(epanet_project, i, &node_type);
@@ -49,7 +51,11 @@ Network EpanetImporter::import() const {
                 network.nodes.push_back(node_importer.import(epanet_project, i, unit_converter));
                 break;
             case EN_RESERVOIR:
-                network.nodes.push_back(node_importer.import(epanet_project, i, unit_converter));
+                network.reservoirs.push_back(reservoir_importer.import(epanet_project, i, unit_converter));
+                network.nodes.push_back(Node{
+                    .id = network.reservoirs.back().name,
+                    .position = network.reservoirs.back().position
+                });
                 break;
             default:
                 continue;

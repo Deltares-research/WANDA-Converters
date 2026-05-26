@@ -4,6 +4,7 @@
 
 #include "node.h"
 #include "pipe.h"
+#include "reservoir.h"
 
 /**
  * @brief Represents a pipeline network consisting of nodes and pipes.
@@ -15,4 +16,5 @@
 struct Network {
   std::vector<Node> nodes;
   std::vector<Pipe> pipes;
+  std::vector<Reservoir> reservoirs;
 };

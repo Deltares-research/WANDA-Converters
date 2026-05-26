@@ -11,5 +11,8 @@ void WandaModelExporter::convert(const Network &network, std::string_view output
     for (const auto& pipe : network.pipes) {
         builder.add_pipe(pipe);
     }
+    for (const auto& reservoir : network.reservoirs) {
+        builder.add_reservoir(reservoir);
+    }
     builder.finalize();
 }

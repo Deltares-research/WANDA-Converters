@@ -3,6 +3,7 @@
 #include "wandamodel.h"
 #include "core/node.h"
 #include "core/pipe.h"
+#include "core/reservoir.h"
 #include "core/typedef.h"
 
 /**
@@ -39,6 +40,7 @@ class WandaModelBuilder {
 
         void add_node(const Node& node);
         void add_pipe(const Pipe& pipe);
+        void add_reservoir(const Reservoir& reservoir);
         void finalize();
     private:
         wanda_model model_;

@@ -14,6 +14,8 @@ Node EpanetNodeImporter::import(EN_Project ph, int node_index, const EpanetUnitC
     double value = 0.0;
     EN_getnodevalue(ph, node_index, EN_ELEVATION, &value);
     node.elevation = unit_converter.convert_length_to_si(value);
+    EN_getnodevalue(ph, node_index, EN_BASEDEMAND, &value);
+    node.base_demand = unit_converter.convert_flow_to_si(value);
     node.position = {0, 0}; // TODO: get actual position from EPANET model (if available)
 
     return node;

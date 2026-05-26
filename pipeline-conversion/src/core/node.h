@@ -12,5 +12,6 @@
 struct Node {
   NodeId id;
   double elevation;
+  double base_demand;
   std::vector<float> position;
 };
