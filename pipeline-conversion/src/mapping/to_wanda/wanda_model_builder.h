@@ -25,6 +25,7 @@ class WandaModelBuilder {
     private:
         wanda_model model_;
     std::vector<Connection> connections_pending;
+    const std::string node_prefix = "H-node";
 
 };
 

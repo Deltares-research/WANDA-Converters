@@ -3,6 +3,7 @@
 #include <iostream>
 #include "mapping/from_wanda/wanda_model_importer.h"
 #include "mapping/to_wanda/wanda_model_exporter.h"
+#include "mapping/from_epanet/epanet_model_importer.h"
 
 ModelConverter::ModelConverter(const std::string_view input_file, const std::string_view input_model_type) {
     //check if input file exists:
@@ -14,6 +15,8 @@ ModelConverter::ModelConverter(const std::string_view input_file, const std::str
     }
     if (input_model_type == "EPAnet") {
         std::cout << "EPAnet" << std::endl;
+        EpanetImporter importer{std::string(input_file)};
+        network = importer.import();
         return;
     }
     if (input_model_type == "WANDA") {

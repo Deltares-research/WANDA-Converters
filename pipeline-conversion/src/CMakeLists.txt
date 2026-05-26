@@ -14,6 +14,14 @@ add_library(pipeline_conversion STATIC
         mapping/to_wanda/wanda_model_exporter.h
         mapping/to_wanda/wanda_model_builder.cpp
         mapping/to_wanda/wanda_model_builder.h
+        mapping/from_epanet/epanet_model_importer.cpp
+        mapping/from_epanet/epanet_model_importer.h
+        mapping/from_epanet/epanet_pipe_importer.cpp
+        mapping/from_epanet/epanet_pipe_importer.h
+        mapping/from_epanet/epanet_unit_converter.cpp
+        mapping/from_epanet/epanet_unit_converter.h
+        mapping/from_epanet/epanet_node_importer.cpp
+        mapping/from_epanet/epanet_node_importer.h
 )
 set_target_properties(pipeline_conversion PROPERTIES LINKER_LANGUAGE CXX)
 target_sources(pipeline_conversion
@@ -23,16 +31,17 @@ target_sources(pipeline_conversion
     core/network.h
     mapping/mapper_base.h
     descriptors/wanda_pipe_descriptor.h
-    builders/wanda_model_builder.h
     utils/unit_converter.h
 )
 target_include_directories(pipeline_conversion
-  PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    "${CMAKE_SOURCE_DIR}/libs/include/"
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        "${CMAKE_SOURCE_DIR}/libs/include/"
+        ${epanet_SOURCE_DIR}/include
 )
 
 target_link_libraries(pipeline_conversion
-  PUBLIC
-"${CMAKE_SOURCE_DIR}/libs/debug/Deltares.Wanda.lib"
+        PUBLIC
+        "${CMAKE_SOURCE_DIR}/libs/debug/Deltares.Wanda.lib"
+        epanet2
 )

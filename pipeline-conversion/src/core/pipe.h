@@ -4,6 +4,13 @@
 
 #include "typedef.h"
 
+
+enum class FrictionModel {
+  HazenWilliams,
+  DarcyWeisbach,
+  Manning
+};
+
 /**
  * @brief Represents a pipe element in the pipeline network.
  *
@@ -19,7 +26,8 @@ struct Pipe {
   ComponentId name;
   double length{0};
   double inner_diameter{0};
-  double wall_roughness{0};
+  double friction_model_roughness{0};
+  FrictionModel friction_model{FrictionModel::DarcyWeisbach};
   NodeId from_node_id;
   NodeId to_node_id;
   std::vector<float> position;

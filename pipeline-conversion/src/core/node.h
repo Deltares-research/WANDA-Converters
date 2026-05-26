@@ -1,5 +1,6 @@
 #pragma once
 #include "typedef.h"
+#include <vector>
 
 /**
  * @brief Represents a node (junction point) in the pipeline network.
