@@ -1,6 +1,7 @@
 #pragma once
 #include "typedef.h"
 #include <vector>
+#include "coordinates.h"
 
 /**
  * @brief Represents a node (junction point) in the pipeline network.
@@ -13,5 +14,5 @@ struct Node {
   NodeId id;
   double elevation;
   double base_demand;
-  std::vector<float> position;
+  DiagramCoordinates position;
 };

@@ -25,6 +25,9 @@ add_library(pipeline_conversion STATIC
         core/reservoir.h
         mapping/from_epanet/epanet_reservoir_importer.cpp
         mapping/from_epanet/epanet_reservoir_importer.h
+        core/coordinates.h
+        mapping/from_epanet/utility.cpp
+        mapping/from_epanet/utility.h
 )
 set_target_properties(pipeline_conversion PROPERTIES LINKER_LANGUAGE CXX)
 target_sources(pipeline_conversion

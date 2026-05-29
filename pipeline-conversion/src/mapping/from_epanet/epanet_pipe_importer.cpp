@@ -1,6 +1,7 @@
 #include "epanet_pipe_importer.h"
 
 #include "epanet_unit_converter.h"
+#include "utility.h"
 #include "core/typedef.h"
 
 Pipe EpanetPipeImporter::import(EN_Project ph, int link_index, const EpanetUnitConverter& unit_converter) const {
@@ -36,7 +37,7 @@ Pipe EpanetPipeImporter::import(EN_Project ph, int link_index, const EpanetUnitC
     EN_getlinkvalue(ph, link_index, EN_ROUGHNESS, &value);
     pipe.friction_model_roughness = unit_converter.convert_roughness_to_si(value);         // depends on headloss formula
 
-    pipe.position = {0,0};
+    pipe.position = get_link_coordinates(ph, link_index);
 
     return pipe;
 }

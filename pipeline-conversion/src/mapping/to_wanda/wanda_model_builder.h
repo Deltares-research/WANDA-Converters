@@ -1,6 +1,7 @@
 #ifndef PIPELINE_CONVERSION_WANDA_MODEL_BUILDER_H
 #define PIPELINE_CONVERSION_WANDA_MODEL_BUILDER_H
 #include "wandamodel.h"
+#include "wanda_model_exporter.h"
 #include "core/node.h"
 #include "core/pipe.h"
 #include "core/reservoir.h"
@@ -32,7 +33,7 @@ struct Connection {
  */
 class WandaModelBuilder {
     public:
-        explicit WandaModelBuilder(const std::string &wanda_file);
+        explicit WandaModelBuilder(const std::string &wanda_file, const CoordinatesConverter& converter);
 
         ~WandaModelBuilder() {
              model_.close();
@@ -44,10 +45,12 @@ class WandaModelBuilder {
         void finalize();
     private:
         wanda_model model_;
+    CoordinatesConverter converter_;
     std::vector<Connection> connections_pending;
     const std::string node_prefix = "H-node";
 
 };
+
 
 
 #endif //PIPELINE_CONVERSION_WANDA_MODEL_BUILDER_H

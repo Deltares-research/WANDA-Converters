@@ -16,7 +16,7 @@ Pipe WandaPipeImporter::import(wanda_component &wandacomponent) const {
         .friction_model_roughness = wall_roughness,
         .from_node_id = from_id,
         .to_node_id = to_id,
-        .position = wandacomponent.get_position()
+        .position = {{0,0},{0,0}}
     };
 }
 

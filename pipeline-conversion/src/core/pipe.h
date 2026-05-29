@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "typedef.h"
+#include "coordinates.h"
 
 /**
  * @brief Friction model used for headloss calculation in a pipe.
@@ -32,5 +33,5 @@ struct Pipe {
   FrictionModel friction_model{FrictionModel::DarcyWeisbach};
   NodeId from_node_id;
   NodeId to_node_id;
-  std::vector<float> position;
+  std::vector<DiagramCoordinates> position;
 };

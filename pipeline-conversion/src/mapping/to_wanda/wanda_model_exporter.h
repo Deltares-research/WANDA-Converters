@@ -18,5 +18,16 @@ public:
 
 };
 
+class CoordinatesConverter {
+public:
+    CoordinatesConverter(float y_factor_in, float x_factor_in, float y_shift_in, float x_shift_in);
+    std::vector<float> convert(const DiagramCoordinates& coordinates) const;
+private:
+    float y_factor;
+    float x_factor;
+    float y_shift;
+    float x_shift;
+};
+
 
 #endif //PIPELINE_CONVERSION_WANDA_MODEL_EXPORTER_H

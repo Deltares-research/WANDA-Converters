@@ -4,11 +4,12 @@
 #include <string>
 #include <vector>
 #include "typedef.h"
+#include "coordinates.h"
 
 struct Reservoir {
     ComponentId name;
     double head;
-    std::vector<float> position;
+    DiagramCoordinates position;
 };
 
 
