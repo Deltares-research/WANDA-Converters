@@ -1,6 +1,7 @@
 #include "wanda_model_builder.h"
 #include <string>
 #include <numeric>
+#include <numbers>
 
 constexpr const char *WANDABIN = R"(c:\Program Files (x86)\Deltares\Wanda 4.8\Bin64\)";
 
@@ -28,7 +29,17 @@ void WandaModelBuilder::add_pipe(const Pipe &pipe) {
                                });
     auto n = static_cast<double>(pipe.position.size());
     std::vector<float> position = converter_.convert({sum.x / n, sum.y / n});
+    //calculate of the angle of the pipe in clock wise direction. horizontal is 0 degree
+    double x1 = pipe.position.begin()->x;
+    double y1 = pipe.position.begin()->y;
+    double x2 = pipe.position.back().x;
+    double y2 = pipe.position.back().y;
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+    double angle = std::atan2(dy, dx) ;
+
     auto &wanda_pipe = model_.add_component("Pipe (Liquid)", position, pipe.name);
+    wanda_pipe.set_angle(static_cast<float>(angle));
     wanda_pipe.get_property("Length").set_scalar(static_cast<float>(pipe.length));
     wanda_pipe.get_property("Inner diameter").set_scalar(static_cast<float>(pipe.inner_diameter));
     wanda_pipe.get_property("Wall roughness").set_scalar(static_cast<float>(pipe.friction_model_roughness));
