@@ -4,6 +4,7 @@
 #include "epanet_pipe_importer.h"
 #include "epanet_reservoir_importer.h"
 #include "epanet_unit_converter.h"
+#include "epanet_valve_importer.h"
 #include "../../../cmake-build-debug-visual-studio/_deps/epanet-src/src/outfile/include/epanet_output.h"
 
 EpanetImporter::EpanetImporter(const std::string &model_file):epanet_project(EN_Project()) {
@@ -30,11 +31,11 @@ Network EpanetImporter::import() const {
         int link_type = 0;
         EN_getlinktype(epanet_project, i, &link_type);
         switch (link_type) {
-            case EN_PIPE:
+            case EN_PIPE: case EN_CVPIPE:
                 network.pipes.push_back(pipe_importer.import(epanet_project, i, unit_converter));
                 break;
-            case EN_CVPIPE:
-                network.pipes.push_back(pipe_importer.import(epanet_project, i, unit_converter));
+            case EN_PRV: case EN_PSV: case EN_PBV: case EN_FCV: case EN_TCV: case EN_GPV: case EN_PCV:
+                network.valves.push_back(EpanetValveImporter().import(epanet_project, i, unit_converter));
                 break;
             default:                continue;
         }

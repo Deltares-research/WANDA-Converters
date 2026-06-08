@@ -28,6 +28,9 @@ add_library(pipeline_conversion STATIC
         core/coordinates.h
         mapping/from_epanet/utility.cpp
         mapping/from_epanet/utility.h
+        core/valve.h
+        mapping/from_epanet/epanet_valve_importer.cpp
+        mapping/from_epanet/epanet_valve_importer.h
 )
 set_target_properties(pipeline_conversion PROPERTIES LINKER_LANGUAGE CXX)
 target_sources(pipeline_conversion
@@ -36,7 +39,6 @@ target_sources(pipeline_conversion
     core/pipe.h
     core/network.h
     mapping/mapper_base.h
-    descriptors/wanda_pipe_descriptor.h
     utils/unit_converter.h
 )
 target_include_directories(pipeline_conversion
