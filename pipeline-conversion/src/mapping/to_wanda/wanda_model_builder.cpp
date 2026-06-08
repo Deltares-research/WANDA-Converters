@@ -29,14 +29,10 @@ void WandaModelBuilder::add_pipe(const Pipe &pipe) {
                                });
     auto n = static_cast<double>(pipe.position.size());
     std::vector<float> position = converter_.convert({sum.x / n, sum.y / n});
-    //calculate of the angle of the pipe in clock wise direction. horizontal is 0 degree
-    double x1 = pipe.position.begin()->x;
-    double y1 = pipe.position.begin()->y;
-    double x2 = pipe.position.back().x;
-    double y2 = pipe.position.back().y;
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    double angle = std::atan2(dy, dx) ;
+    // Angle of the pipe (horizontal = 0 rad), based on first and last vertices.
+    const auto &start = pipe.position.front();
+    const auto &end = pipe.position.back();
+    double angle = std::atan2(end.y - start.y, end.x - start.x);
 
     auto &wanda_pipe = model_.add_component("Pipe (Liquid)", position, pipe.name);
     wanda_pipe.set_angle(static_cast<float>(angle));
