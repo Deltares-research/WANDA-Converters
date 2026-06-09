@@ -63,6 +63,7 @@ void WandaModelBuilder::add_valve(const Valve &valve) {
     const auto &end = valve.position.back();
     double angle = std::atan2(end.y - start.y, end.x - start.x);
     auto& wanda_valve = model_.add_component("Valve", position, valve.name);
+    wanda_valve.set_angle(static_cast<float>(angle));
     wanda_valve.get_property("Inner diameter").set_scalar(static_cast<float>(valve.inner_diameter));
     connections_pending.push_back({wanda_valve, valve.from_node_id, 1});
     connections_pending.push_back({wanda_valve, valve.to_node_id, 2});

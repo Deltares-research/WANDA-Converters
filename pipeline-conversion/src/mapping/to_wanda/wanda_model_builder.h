@@ -4,6 +4,7 @@
 #include "wanda_model_exporter.h"
 #include "core/node.h"
 #include "core/pipe.h"
+#include "core/valve.h"
 #include "core/reservoir.h"
 #include "core/typedef.h"
 

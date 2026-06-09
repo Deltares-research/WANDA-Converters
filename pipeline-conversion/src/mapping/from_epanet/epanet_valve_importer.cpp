@@ -6,7 +6,7 @@
 
 Valve EpanetValveImporter::import(const EN_Project ph, const int link_index, const EpanetUnitConverter& unit_converter) const {
     Valve valve{};
-    // --- Pipe ID ---
+    // --- Valve ID ---
     char link_id[EN_MAXID + 1];
     EN_getlinkid(ph, link_index, link_id);
     valve.name = ComponentId{link_id};
@@ -31,7 +31,7 @@ Valve EpanetValveImporter::import(const EN_Project ph, const int link_index, con
     valve.inner_diameter = unit_converter.convert_diameter_to_si(value);
 
     EN_getlinkvalue(ph, link_index, EN_MINORLOSS, &value);
-    valve.loss_coefficient = unit_converter.convert_roughness_to_si(value);         // depends on headloss formula
+    valve.loss_coefficient = value;
 
     valve.position = get_link_coordinates(ph, link_index);
     EN_getlinkvalue(ph, link_index, EN_VALVE_TYPE, &value);
@@ -53,11 +53,12 @@ Valve EpanetValveImporter::import(const EN_Project ph, const int link_index, con
             break;
         case EN_PCV:
             valve.valve_type = ValveType::PCV;
+            break;
         case EN_GPV:
             valve.valve_type = ValveType::GPV;
             break;
         default:
-            throw std::invalid_argument("Invalid value type");
+            throw std::invalid_argument("Invalid valve type");
     }
     return valve;
 }
