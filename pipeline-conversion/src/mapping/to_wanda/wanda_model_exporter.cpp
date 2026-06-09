@@ -55,7 +55,9 @@ void WandaModelExporter::convert(const Network &network, std::string_view output
     for (const auto& pipe : network.pipes) {
         all_coordinates.insert(all_coordinates.end(), pipe.position.begin(), pipe.position.end());
     }
-
+    for (const auto& valve : network.valves) {
+        all_coordinates.insert(all_coordinates.end(), valve.position.begin(), valve.position.end());
+    }
     auto [x_min_it, x_max_it] = std::minmax_element(all_coordinates.begin(), all_coordinates.end(),
                                                 [](const auto& a, const auto& b) { return a.x < b.x; });
     auto [y_min_it, y_max_it] = std::minmax_element(all_coordinates.begin(), all_coordinates.end(),
@@ -80,6 +82,9 @@ void WandaModelExporter::convert(const Network &network, std::string_view output
     }
     for (const auto& pipe : network.pipes) {
         builder.add_pipe(pipe);
+    }
+    for (const auto& valve : network.valves) {
+        builder.add_valve(valve);
     }
     for (const auto& reservoir : network.reservoirs) {
         builder.add_reservoir(reservoir);
