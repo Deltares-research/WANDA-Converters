@@ -1,14 +1,12 @@
 #include "wanda_model_builder.h"
-#include <string>
-#include <numeric>
 #include <numbers>
+#include <numeric>
+#include <string>
 
 constexpr const char *WANDABIN = R"(c:\Program Files (x86)\Deltares\Wanda 4.8\Bin64\)";
 
-WandaModelBuilder::WandaModelBuilder(const std::string &wanda_file,
-                                     const CoordinatesConverter &converter) : model_(wanda_file, WANDABIN),
-                                                                              converter_(converter) {
-}
+WandaModelBuilder::WandaModelBuilder(const std::string &wanda_file, const CoordinatesConverter &converter)
+    : model_(wanda_file, WANDABIN), converter_(converter) {}
 
 void WandaModelBuilder::add_node(const Node &node) {
     auto &wanda_node = model_.add_node("Hydraulic node", converter_.convert(node.position), node.id);
@@ -24,7 +22,7 @@ void WandaModelBuilder::add_node(const Node &node) {
 
 void WandaModelBuilder::add_pipe(const Pipe &pipe) {
     auto sum = std::accumulate(pipe.position.begin(), pipe.position.end(), DiagramCoordinates{0.0, 0.0},
-                               [](DiagramCoordinates acc, const DiagramCoordinates& pos) {
+                               [](DiagramCoordinates acc, const DiagramCoordinates &pos) {
                                    return DiagramCoordinates{acc.x + pos.x, acc.y + pos.y};
                                });
     auto n = static_cast<double>(pipe.position.size());
@@ -44,17 +42,17 @@ void WandaModelBuilder::add_pipe(const Pipe &pipe) {
 }
 
 void WandaModelBuilder::add_reservoir(const Reservoir &reservoir) {
-    auto &wanda_reservoir = model_.add_component("BoundH (reservoir)",
-                                                 converter_.convert(reservoir.position), reservoir.name);
+    auto &wanda_reservoir =
+        model_.add_component("BoundH (reservoir)", converter_.convert(reservoir.position), reservoir.name);
     wanda_reservoir.get_property("Head at t = 0 [s]").set_scalar(static_cast<float>(reservoir.head));
     connections_pending.push_back({wanda_reservoir, reservoir.name, 1});
 }
 
 void WandaModelBuilder::add_valve(const Valve &valve) {
     auto sum = std::accumulate(valve.position.begin(), valve.position.end(), DiagramCoordinates{0.0, 0.0},
-                           [](DiagramCoordinates acc, const DiagramCoordinates& pos) {
-                               return DiagramCoordinates{acc.x + pos.x, acc.y + pos.y};
-                           });
+                               [](DiagramCoordinates acc, const DiagramCoordinates &pos) {
+                                   return DiagramCoordinates{acc.x + pos.x, acc.y + pos.y};
+                               });
 
     auto n = static_cast<double>(valve.position.size());
     std::vector<float> position = converter_.convert({sum.x / n, sum.y / n});
@@ -62,7 +60,7 @@ void WandaModelBuilder::add_valve(const Valve &valve) {
     const auto &start = valve.position.front();
     const auto &end = valve.position.back();
     double angle = std::atan2(end.y - start.y, end.x - start.x);
-    auto& wanda_valve = model_.add_component("Valve", position, valve.name);
+    auto &wanda_valve = model_.add_component("Valve", position, valve.name);
     wanda_valve.set_angle(static_cast<float>(angle));
     wanda_valve.get_property("Inner diameter").set_scalar(static_cast<float>(valve.inner_diameter));
     connections_pending.push_back({wanda_valve, valve.from_node_id, 1});
@@ -70,7 +68,7 @@ void WandaModelBuilder::add_valve(const Valve &valve) {
 }
 
 void WandaModelBuilder::finalize() {
-    for (auto &connection: connections_pending) {
+    for (auto &connection : connections_pending) {
         try {
             auto &node = model_.get_node(node_prefix + " " + connection.node_id);
             model_.connect(connection.pipe_id, connection.connection_point, node);
@@ -81,7 +79,3 @@ void WandaModelBuilder::finalize() {
     model_.save_model_input();
     model_.close();
 }
-
-
-
-

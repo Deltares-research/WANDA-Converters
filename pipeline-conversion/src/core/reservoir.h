@@ -1,10 +1,10 @@
 #ifndef PIPELINE_CONVERSION_RESERVOIR_H
 #define PIPELINE_CONVERSION_RESERVOIR_H
 
+#include "coordinates.h"
+#include "typedef.h"
 #include <string>
 #include <vector>
-#include "typedef.h"
-#include "coordinates.h"
 
 struct Reservoir {
     ComponentId name;
@@ -12,5 +12,4 @@ struct Reservoir {
     DiagramCoordinates position;
 };
 
-
-#endif //PIPELINE_CONVERSION_RESERVOIR_H
+#endif // PIPELINE_CONVERSION_RESERVOIR_H

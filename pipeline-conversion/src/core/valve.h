@@ -5,15 +5,7 @@
 #include "coordinates.h"
 #include "typedef.h"
 
-enum class ValveType {
-    PRV,
-    PSV,
-    PBV,
-    FCV,
-    TCV,
-    PCV,
-    GPV
-};
+enum class ValveType { PRV, PSV, PBV, FCV, TCV, PCV, GPV };
 
 struct Valve {
     ComponentId name;
@@ -25,4 +17,4 @@ struct Valve {
     std::vector<DiagramCoordinates> position;
 };
 
-#endif //PIPELINE_CONVERSION_VALVE_H
+#endif // PIPELINE_CONVERSION_VALVE_H
