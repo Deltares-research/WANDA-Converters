@@ -6,4 +6,4 @@ struct DiagramCoordinates {
     double y;
 };
 
-#endif //PIPELINE_CONVERSION_COORDINATES_H
+#endif // PIPELINE_CONVERSION_COORDINATES_H

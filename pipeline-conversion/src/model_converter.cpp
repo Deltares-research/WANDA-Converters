@@ -1,12 +1,12 @@
 #include "model_converter.h"
-#include <filesystem>
-#include <iostream>
+#include "mapping/from_epanet/epanet_model_importer.h"
 #include "mapping/from_wanda/wanda_model_importer.h"
 #include "mapping/to_wanda/wanda_model_exporter.h"
-#include "mapping/from_epanet/epanet_model_importer.h"
+#include <filesystem>
+#include <iostream>
 
 ModelConverter::ModelConverter(const std::string_view input_file, const std::string_view input_model_type) {
-    //check if input file exists:
+    // check if input file exists:
     if (!std::filesystem::exists(input_file)) {
         throw std::runtime_error("Input file does not exist: " + std::string(input_file));
     }

@@ -36,7 +36,7 @@ std::vector<DiagramCoordinates> get_vertex(const EN_Project ph, const int link_i
 std::vector<DiagramCoordinates> get_link_coordinates(EN_Project ph, int link_index) {
 
     int from_node_idx = 0;
-    int to_node_idx   = 0;
+    int to_node_idx = 0;
 
     int ret_val = EN_getlinknodes(ph, link_index, &from_node_idx, &to_node_idx);
     if (ret_val != 0) {
@@ -52,4 +52,3 @@ std::vector<DiagramCoordinates> get_link_coordinates(EN_Project ph, int link_ind
     geometry.push_back(get_coordinates(ph, to_node_idx));
     return geometry;
 }
-

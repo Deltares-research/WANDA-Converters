@@ -5,7 +5,7 @@
 #include "core/typedef.h"
 #include "utility.h"
 
-Node EpanetNodeImporter::import(EN_Project ph, int node_index, const EpanetUnitConverter& unit_converter) const {
+Node EpanetNodeImporter::import(EN_Project ph, int node_index, const EpanetUnitConverter &unit_converter) const {
     Node node{};
 
     // --- Node ID ---
@@ -22,4 +22,3 @@ Node EpanetNodeImporter::import(EN_Project ph, int node_index, const EpanetUnitC
     node.position = get_coordinates(ph, node_index);
     return node;
 }
-

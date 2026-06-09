@@ -15,8 +15,8 @@
  * - pipes : Collection of all Pipe objects connecting the nodes.
  */
 struct Network {
-  std::vector<Node> nodes;
-  std::vector<Pipe> pipes;
-  std::vector<Reservoir> reservoirs;
-  std::vector<Valve> valves;
+    std::vector<Node> nodes;
+    std::vector<Pipe> pipes;
+    std::vector<Reservoir> reservoirs;
+    std::vector<Valve> valves;
 };
